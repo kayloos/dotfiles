@@ -1,0 +1,92 @@
+#!/bin/bash
+
+export PATH="/usr/local/bin:/usr/local/sbin:/Users/kalusn/.cabal/bin:/Users/kalusn/.bin:$PATH"
+
+# Add rvm gems and nginx to the path
+
+export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+# Set my editor and git editor
+export EDITOR="vim"
+export GIT_EDITOR='vim'
+
+# alias git="~/Code/happy_push_v2.sh"
+alias git="hub"
+
+alias up="cd .."
+alias up2="cd ../.."
+alias up3="cd ../../.."
+# alias myd="mysqld &> /dev/null &"
+# alias es="elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.18.6/config/elasticsearch.yml &> /dev/null &"
+# alias rs="redis-server /usr/local/etc/redis.conf &> /dev/null &"
+# alias dbs="myd es rs"
+
+alias be="bundle exec"
+alias ts="be thin start"
+alias dbm="be rake db:migrate"
+alias dbr="be rake db:reset"
+alias lg='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
+alias g=ezgrep
+alias home="cd ~/"
+alias cbi="cabal build && cabal install"
+alias tarc="tar -cvzf"
+alias tarx="tar -xvzf"
+alias stfu=stfu
+
+# MEG shortcuts
+alias megcms="cd ~/Projects/megCMS-km"
+alias fis="cd ~/Projects/file_information_service"
+
+function stfu {
+  if [ $# -gt 0 ]; then
+    $@ > /dev/null 2>&1 &
+  else
+    echo "stfu needs an argument"
+  fi
+}
+
+function ezgrep {
+  if [ $# -gt 1 ]; then
+    grep -r -n $@
+  else
+    grep -r -n "$1" app/
+  fi
+}
+
+alias ls='ls -G'
+alias la='ls -la'
+alias l='ls'
+alias ll='ls -l'
+
+# alias bil='cd ~/Projects/billetto'
+# alias awu='cd ~/Projects/artworkersunited'
+alias hem='cd ~/Projects/hemplate'
+alias sna='cd ~/Projects/snailrazor'
+alias pro='mvim ~/Documents/Random/2012'
+alias vir='cd ~/Documents/Virksomhedsprojekt'
+alias swo='cd ~/Projects/swollocks'
+alias jan='cd ~/Projects/jana'
+alias inf='cd ~/Sites/infobeamer'
+alias not='cd ~/Projects/notepudding'
+
+export PS1="\[\e[1;31m\]\w $\[\e[0m\] "
+export VERSIONER_PERL_PREFER_32_BIT=yes;
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Set Git language to English
+alias git='LANG=en_US git'
+
+# GIT status #########################
+# function parse_git_dirty {
+  # [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
+# }
+# function parse_git_branch {
+  # git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+# }
+# export PS1='\u@\h \[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
+
+# git autocomplete
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi

@@ -1,0 +1,19 @@
+[github]
+  name = Claus Skou Nielsen
+[user]
+  name = Claus Skou Nielsen
+  email = kalusn@gmail.com
+[alias]
+  st = status
+  lg = log
+  co = checkout
+  ci = commit
+  br = branch
+  plm = pull origin master
+  psm = push origin master
+  graph = log --graph --oneline --all --decorate
+  serve = !git daemon --reuseaddr --verbose --base-path=. --export-all ./.git
+[color]
+  ui = true
+[push]
+  default = simple

@@ -1,0 +1,299 @@
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Bundle shit here
+
+Bundle 'gmarik/vundle'
+Bundle 'The-NERD-tree'
+Bundle 'The-NERD-Commenter'
+Bundle 'surround.vim'
+Bundle 'Tabular'
+Bundle 'vimroom.vim'
+Bundle 'vim-coffee-script'
+Bundle 'snipMate'
+Bundle 'molokai'
+Bundle 'twilight256.vim'
+Bundle 'bitc/vim-hdevtools'
+" Bundle 'Haskell-Cuteness'
+Bundle 'indenthaskell.vim'
+Bundle 'haskell.vim'
+Bundle 'ctrlp.vim'
+Bundle 'Syntastic'
+" Bundle 'fugitive.vim'
+Bundle 'rails.vim'
+
+if executable("ag")
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
+
+set wildmode=list:longest,full
+
+" File tab completion ignores these file patterns
+set wildignore+=*.exe,*.swp,.DS_Store,*~,*.o
+set wildignore+=*/tmp/*,*.so,*.swo,*.zip
+set wildignore+=*/log/*
+set wildignore+=*/coverage/*
+set wildignore+=*/public/system/*  " Rails images
+set wildmenu
+let g:ctrlp_custom_ignore = '\v[\/]\.(git)$'
+
+let g:haddock_browser='open'
+
+filetype plugin indent on
+syntax enable
+
+if has('gui_running')
+  set gfn=Monaco:h12
+  set columns=180 " perfect size for me
+  set guioptions=ce 
+  "              ||
+  "              |+-- use simple dialogs rather than pop-ups
+  "              +  use GUI tabs, not console style tabs
+  set lines=55 " perfect size for me
+  set mousehide " hide the mouse cursor when typing
+  set guioptions-=T  " no toolbar
+  colorscheme molokai
+else
+  set t_Co=256
+  colorscheme twilight256
+endif
+
+" GUI options
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=R
+
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set autoindent
+set smartindent
+set shiftround 
+set nojoinspaces
+set number
+set showmatch  " Show matching brackets.
+set mat=5  " Bracket blinking.
+
+set ruler
+set showcmd
+set incsearch
+set foldenable
+set backspace=2
+set textwidth=0
+set showtabline=2               " File tabs allways visible
+set scrolloff=7
+
+set ai
+set et
+set mouse=a
+set wrap
+
+" mapleader
+let mapleader=','
+
+nnoremap <Leader>= :Tabularize /=<CR>
+vnoremap <Leader>= :Tabularize /=<CR>
+nnoremap <Leader>0 :Tabularize /=><CR>
+vnoremap <Leader>0 :Tabularize /=><CR>
+nnoremap <Leader>- :Tabularize /-<CR>
+vnoremap <Leader>- :Tabularize /-<CR>
+nnoremap <Leader>l :Tabularize /\|<CR>
+vnoremap <Leader>l :Tabularize /\|<CR>
+nnoremap <Leader>6 :Tabularize /&<CR>
+vnoremap <Leader>6 :Tabularize /&<CR>
+nnoremap <Leader>> :Tabularize /-><CR>
+vnoremap <Leader>> :Tabularize /-><CR>
+
+" NERDCommenter, I like spaces between comments
+let NERDSpaceDelims = 1
+
+" Snippets
+ino <silent> <c-j> <c-r>=TriggerSnippet()<cr>
+snor <silent> <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
+ino <silent> <c-i> <c-r>=BackwardsSnippet()<cr>
+snor <silent> <c-i> <esc>i<right><c-r>=BackwardsSnippet()<cr>
+ino <silent> <c-Tab> <c-r>=ShowAvailableSnips()<cr>
+
+"Bubble single lines
+nnoremap <C-Up> ddkP
+nnoremap <C-Down> ddp  
+
+"Bubble multiple lines  
+vnoremap <C-Up> xkP`[V`]  
+vnoremap <C-Down> xp`[V`]
+
+" Remove expensive exit
+" inoremap <esc> <nop>
+" nnoremap <leader>g :grep -R '<cWORD>' .<cr>
+
+" Source the vimrc file after saving it. This way, you don't have to reload
+" Vim to see the changes.  
+if has("autocmd")  
+  augroup myvimrchooks  
+    au!  
+    autocmd bufwritepost .vimrc source ~/.vimrc  
+  augroup END  
+endif
+
+" Backupdir and directory so we don't get messy commits'
+set backupdir=~/.vim/backup
+set directory=~/.vim/tmp
+
+" Shift moving between windows
+nnoremap <S-h> <C-w>h
+nnoremap <S-j> <C-w>j
+nnoremap <S-k> <C-w>k
+nnoremap <S-l> <C-w>l
+
+" Creating new windows
+noremap <leader>v <c-w>v<c-w>l
+noremap <leader>s <c-w>s<c-w>j
+noremap <leader>q <c-w>c
+noremap <leader>t :tabnew<CR>
+
+" Kill buffer but keep window
+nnoremap <Leader>x :split<CR>:bn<CR><C-w>j:bd<CR>
+nnoremap <Leader>X :%bd<CR>
+
+" Switch between tabs
+noremap <C-h> :tabprevious<CR>
+noremap <C-l> :tabnext<CR>
+inoremap <C-h> <Esc>:tabprevious<CR>
+inoremap <C-l> <Esc>:tabnext<CR>
+
+" Switch between buffers
+noremap <C-j> :bp<CR>
+noremap <C-k> :bn<CR>
+
+" Easy hashes in ruby
+inoremap <D-0> <Space>=><Space>
+
+" Jumping out of quotes by typing it again
+inoremap " <c-r>=QuoteDelim('"')<CR>
+inoremap ' <c-r>=QuoteDelim("'")<CR>
+
+" Create new tab
+nnoremap <D-t> :tabnew<CR>
+
+" Delete current line if insert
+inoremap <C-d> <Esc>i
+
+" Fold line down
+noremap <C-c> gJ<CR>
+inoremap <C-c> <Esc>gJA
+
+nnoremap <leader>m :call EditLastMigration()<CR>
+
+" CtrlP bindings
+nnoremap <C-e> :CtrlP<CR>
+nnoremap <C-t> :tabnew<CR>:CtrlP<CR>
+
+" NERDTree toggle 
+nnoremap - <ESC>:NERDTreeToggle<Enter>
+
+" Rails.vim bindings
+nnoremap <Leader>a :A<CR>
+
+" Parenthesis automatically closes
+inoremap ( <c-r>=ParensDelim('(', ')')<CR>
+inoremap [ <c-r>=ParensDelim('[', ']')<CR>
+inoremap { <c-r>=ParensDelim('{', '}')<CR>
+
+inoremap <Tab> <C-R>=EscapeBrackets()<CR>
+
+" Bind <Help> (Caps Lock) to begin a new line under the current line
+noremap <Help> <Nop>
+inoremap <Help> <Esc>o
+inoremap <S-Help> <Esc>O
+
+inoremap <Space> <C-R>=BracketsSpacing()<CR>
+inoremap <CR> <C-R>=CleverBrace()<CR>
+inoremap <BS> <C-R>=DeleteBrackets()<CR>
+
+map <Leader>p :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
+
+" Binds <Tab> to do some cool stuff in situations where indenting definitely
+" isn't needed
+function! EscapeBrackets()
+  let s:chars = strpart(getline('.'), col('.') - 1, 1)
+  if s:chars =~ ")"  || s:chars =~ "]"  || s:chars =~ "}"  || s:chars =~ "'"  || s:chars =~ "\"" || s:chars =~ ","
+    return "\<ESC>la"
+  else
+    return "\<Tab>"
+endfunction
+
+" This makes pressing enter in between curly brackets make a new line
+function! CleverBrace()
+      if strpart( getline('.'), col('.')-2, 2 ) =~ '{}'
+        return "\<CR>\<ESC>O"
+      else
+        return "\<CR>"
+endfunction
+
+" Delete both brackets when cursor is surrounded by them
+function! DeleteBrackets()
+  let s:chars = strpart(getline('.'), col('.')-2, 2)
+  let s:chars2 = strpart(getline('.'), col('.')-3, 4)
+  if s:chars == "()" || s:chars == "{}" || s:chars == "[]" || s:chars == "''" || s:chars == '""'
+    return "\<Right>\<BS>\<BS>"  
+  elseif s:chars2 == '(  )' || s:chars2 == '{  }'
+    return "\<Right>\<Backspace>\<Backspace>"
+  else
+    return "\<BS>"
+endfunction
+
+" Automagically create proper whitespace when pressing space between brackets
+function! BracketsSpacing()
+  let s:chars = strpart(getline('.'), col('.') - 2, 2)
+  if s:chars =~ "()" || s:chars =~ "{}"
+    return " \<Left> "
+  else
+    return "\<Space>"
+endfunction
+
+function! ParensDelim(start, end)
+  let line = getline('.')
+  let col = col('.')
+  if index([')', ']', '}',   ' ',    ''], line[col-1]) != -1
+    return a:start . a:end . "\<Esc>i"
+  else
+    return a:start
+endf
+
+function! QuoteDelim(char)
+ let line = getline('.')
+ let col = col('.')
+
+ if line[col - 2] == "\\"
+ " "Inserting a quoted quotation mark into the string
+  return a:char
+ elseif line[col - 1] == a:char
+ " "Escaping out of the string
+  return "\<Right>"
+ " "Don't do double apostrophes if you're in a word
+ elseif line[col - 2] =~ "\\w"
+  return a:char
+ else
+ " "Starting a string
+  return a:char.a:char."\<Esc>i"
+ endif
+endf
+
+" Disable audiobell and visual bell
+autocmd VimEnter * set vb t_vb=
+
+function! EditLastMigration()
+  let temp = system("find db/migrate -type f  -maxdepth 1 | sort | tail -n 1")
+  e `=temp`
+endfunction
+
+let g:syntastic_mode_map = { 'mode': 'passive',
+                            \ 'active_filetypes': [],
+                            \ 'passive_filetypes': ['haskell'] }
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+au FileType haskell nnoremap <buffer> <F3> :SyntasticCheck<CR>
+let g:hdevtools_options = '-g-isrc -g-Wall'
