@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ $# == 1 ]; then
   location=$1
 else
