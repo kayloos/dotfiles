@@ -192,7 +192,7 @@ nnoremap <C-e> :CtrlP<CR>
 nnoremap <C-t> :tabnew<CR>:CtrlP<CR>
 
 " NERDTree toggle 
-nnoremap - <ESC>:NERDTreeToggle<Enter>
+nnoremap - :execute 'NERDTreeToggle ' . getcwd()<CR>
 
 " Rails.vim bindings
 nnoremap <Leader>a :A<CR>
