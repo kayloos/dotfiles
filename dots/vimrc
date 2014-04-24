@@ -303,3 +303,5 @@ let g:hdevtools_options = '-g-isrc -g-Wall'
 autocmd BufWritePre * :%s/\s\+$//e
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
+
+set clipboard=unnamedplus,unnamed
