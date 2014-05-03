@@ -4,7 +4,7 @@ export PATH="/usr/local/bin:/usr/local/sbin:/Users/kalusn/.cabal/bin:/Users/kalu
 
 # Add rvm gems and nginx to the path
 
-export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="/usr/X11/lib/pkgconfig:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 # Set my editor and git editor
 export EDITOR="vim"

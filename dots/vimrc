@@ -15,8 +15,6 @@ Bundle 'vim-coffee-script'
 Bundle 'snipMate'
 Bundle 'molokai'
 Bundle 'twilight256.vim'
-Bundle 'bitc/vim-hdevtools'
-" Bundle 'Haskell-Cuteness'
 Bundle 'indenthaskell.vim'
 Bundle 'haskell.vim'
 Bundle 'ctrlp.vim'
@@ -40,6 +38,7 @@ set wildmenu
 let g:ctrlp_custom_ignore = '\v[\/]\.(git)$'
 
 let g:haddock_browser='open'
+let g:haddock_browser_callformat = "%s %s"
 
 filetype plugin indent on
 syntax enable
@@ -296,4 +295,5 @@ let g:syntastic_mode_map = { 'mode': 'passive',
 au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 au FileType haskell nnoremap <buffer> <F3> :SyntasticCheck<CR>
+
 let g:hdevtools_options = '-g-isrc -g-Wall'
