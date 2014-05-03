@@ -35,6 +35,7 @@ alias stfu=stfu
 
 # MEG shortcuts
 alias megcms="cd ~/Projects/megCMS-km"
+alias megadmin="cd ~/Projects/megAdmin"
 alias seroki="cd ~/Projects/seroki"
 alias fis="cd ~/Projects/file_information_service"
 alias fisgem="cd ~/Projects/fis_api_client"

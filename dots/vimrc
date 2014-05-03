@@ -24,6 +24,7 @@ Bundle 'Syntastic'
 Bundle 'fugitive.vim'
 Bundle 'rails.vim'
 Bundle 'BufOnly.vim'
+Bundle 'splitjoin.vim'
 
 if executable("ag")
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
@@ -56,7 +57,6 @@ if has('gui_running')
   colorscheme molokai
 else
   set t_Co=256
-  colorscheme molokai
   " colorscheme twilight256
 endif
 
@@ -76,6 +76,7 @@ set nojoinspaces
 set number
 set showmatch  " Show matching brackets.
 set mat=5  " Bracket blinking.
+set ttyfast
 
 set ruler
 set showcmd
@@ -301,7 +302,8 @@ nmap <buffer> <F3> :SyntasticCheck<CR>
 let g:hdevtools_options = '-g-isrc -g-Wall'
 
 autocmd BufWritePre * :%s/\s\+$//e
-highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
 match ExtraWhitespace /\s\+$/
 
-set clipboard=unnamedplus,unnamed
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>
