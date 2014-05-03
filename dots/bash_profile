@@ -17,7 +17,7 @@ alias up="cd .."
 alias up2="cd ../.."
 alias up3="cd ../../.."
 # alias myd="mysqld &> /dev/null &"
-# alias es="elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.18.6/config/elasticsearch.yml &> /dev/null &"
+alias es="elasticsearch -f -D --config=/usr/local/opt/elasticsearch/config/elasticsearch.yml &> /dev/null &"
 # alias rs="redis-server /usr/local/etc/redis.conf &> /dev/null &"
 # alias dbs="myd es rs"
 
@@ -35,7 +35,10 @@ alias stfu=stfu
 
 # MEG shortcuts
 alias megcms="cd ~/Projects/megCMS-km"
+alias megadmin="cd ~/Projects/megAdmin"
+alias seroki="cd ~/Projects/seroki"
 alias fis="cd ~/Projects/file_information_service"
+alias fisgem="cd ~/Projects/fis_api_client"
 
 function stfu {
   if [ $# -gt 0 ]; then

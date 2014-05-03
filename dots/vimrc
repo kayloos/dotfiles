@@ -19,8 +19,10 @@ Bundle 'indenthaskell.vim'
 Bundle 'haskell.vim'
 Bundle 'ctrlp.vim'
 Bundle 'Syntastic'
-" Bundle 'fugitive.vim'
+Bundle 'fugitive.vim'
 Bundle 'rails.vim'
+Bundle 'BufOnly.vim'
+Bundle 'splitjoin.vim'
 
 if executable("ag")
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
@@ -33,7 +35,7 @@ set wildignore+=*.exe,*.swp,.DS_Store,*~,*.o
 set wildignore+=*/tmp/*,*.so,*.swo,*.zip
 set wildignore+=*/log/*
 set wildignore+=*/coverage/*
-set wildignore+=*/public/system/*  " Rails images
+set wildignore+=*/public/*  " Rails images
 set wildmenu
 let g:ctrlp_custom_ignore = '\v[\/]\.(git)$'
 
@@ -44,19 +46,17 @@ filetype plugin indent on
 syntax enable
 
 if has('gui_running')
-  set gfn=Monaco:h12
-  set columns=180 " perfect size for me
-  set guioptions=ce 
+  set gfn=Monaco:h14
+  set guioptions=ce
   "              ||
   "              |+-- use simple dialogs rather than pop-ups
   "              +  use GUI tabs, not console style tabs
-  set lines=55 " perfect size for me
   set mousehide " hide the mouse cursor when typing
   set guioptions-=T  " no toolbar
   colorscheme molokai
 else
   set t_Co=256
-  colorscheme twilight256
+  " colorscheme twilight256
 endif
 
 " GUI options
@@ -70,11 +70,12 @@ set tabstop=2
 set shiftwidth=2
 set autoindent
 set smartindent
-set shiftround 
+set shiftround
 set nojoinspaces
 set number
 set showmatch  " Show matching brackets.
 set mat=5  " Bracket blinking.
+set ttyfast
 
 set ruler
 set showcmd
@@ -118,10 +119,10 @@ ino <silent> <c-Tab> <c-r>=ShowAvailableSnips()<cr>
 
 "Bubble single lines
 nnoremap <C-Up> ddkP
-nnoremap <C-Down> ddp  
+nnoremap <C-Down> ddp
 
-"Bubble multiple lines  
-vnoremap <C-Up> xkP`[V`]  
+"Bubble multiple lines
+vnoremap <C-Up> xkP`[V`]
 vnoremap <C-Down> xp`[V`]
 
 " Remove expensive exit
@@ -129,12 +130,12 @@ vnoremap <C-Down> xp`[V`]
 " nnoremap <leader>g :grep -R '<cWORD>' .<cr>
 
 " Source the vimrc file after saving it. This way, you don't have to reload
-" Vim to see the changes.  
-if has("autocmd")  
-  augroup myvimrchooks  
-    au!  
-    autocmd bufwritepost .vimrc source ~/.vimrc  
-  augroup END  
+" Vim to see the changes.
+if has("autocmd")
+  augroup myvimrchooks
+    au!
+    autocmd bufwritepost .vimrc source ~/.vimrc
+  augroup END
 endif
 
 " Backupdir and directory so we don't get messy commits'
@@ -155,7 +156,7 @@ noremap <leader>t :tabnew<CR>
 
 " Kill buffer but keep window
 nnoremap <Leader>x :split<CR>:bn<CR><C-w>j:bd<CR>
-nnoremap <Leader>X :%bd<CR>
+nnoremap <Leader>X :BufOnly<CR>
 
 " Switch between tabs
 noremap <C-h> :tabprevious<CR>
@@ -189,9 +190,10 @@ nnoremap <leader>m :call EditLastMigration()<CR>
 " CtrlP bindings
 nnoremap <C-e> :CtrlP<CR>
 nnoremap <C-t> :tabnew<CR>:CtrlP<CR>
+nnoremap <C-b> :CtrlPBuffer<CR>
 
-" NERDTree toggle 
-nnoremap - <ESC>:NERDTreeToggle<Enter>
+" NERDTree toggle
+nnoremap - :execute 'NERDTreeToggle ' . getcwd()<CR>
 
 " Rails.vim bindings
 nnoremap <Leader>a :A<CR>
@@ -201,16 +203,16 @@ inoremap ( <c-r>=ParensDelim('(', ')')<CR>
 inoremap [ <c-r>=ParensDelim('[', ']')<CR>
 inoremap { <c-r>=ParensDelim('{', '}')<CR>
 
-inoremap <Tab> <C-R>=EscapeBrackets()<CR>
+imap <Tab> <C-R>=EscapeBrackets()<CR>
 
 " Bind <Help> (Caps Lock) to begin a new line under the current line
-noremap <Help> <Nop>
-inoremap <Help> <Esc>o
-inoremap <S-Help> <Esc>O
+map <Help> <Nop>
+imap <Help> <Esc>o
+imap <S-Help> <Esc>O
 
-inoremap <Space> <C-R>=BracketsSpacing()<CR>
-inoremap <CR> <C-R>=CleverBrace()<CR>
-inoremap <BS> <C-R>=DeleteBrackets()<CR>
+imap <Space> <C-R>=BracketsSpacing()<CR>
+imap <CR> <C-R>=CleverBrace()<CR>
+imap <BS> <C-R>=DeleteBrackets()<CR>
 
 map <Leader>p :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
 
@@ -218,6 +220,7 @@ map <Leader>p :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displ
 " isn't needed
 function! EscapeBrackets()
   let s:chars = strpart(getline('.'), col('.') - 1, 1)
+  echo "got called"
   if s:chars =~ ")"  || s:chars =~ "]"  || s:chars =~ "}"  || s:chars =~ "'"  || s:chars =~ "\"" || s:chars =~ ","
     return "\<ESC>la"
   else
@@ -237,7 +240,7 @@ function! DeleteBrackets()
   let s:chars = strpart(getline('.'), col('.')-2, 2)
   let s:chars2 = strpart(getline('.'), col('.')-3, 4)
   if s:chars == "()" || s:chars == "{}" || s:chars == "[]" || s:chars == "''" || s:chars == '""'
-    return "\<Right>\<BS>\<BS>"  
+    return "\<Right>\<BS>\<BS>"
   elseif s:chars2 == '(  )' || s:chars2 == '{  }'
     return "\<Right>\<Backspace>\<Backspace>"
   else
@@ -291,9 +294,16 @@ endfunction
 
 let g:syntastic_mode_map = { 'mode': 'passive',
                             \ 'active_filetypes': [],
-                            \ 'passive_filetypes': ['haskell'] }
+                            \ 'passive_filetypes': ['haskell','ruby'] }
 au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 au FileType haskell nnoremap <buffer> <F3> :SyntasticCheck<CR>
 
 let g:hdevtools_options = '-g-isrc -g-Wall'
+
+autocmd BufWritePre * :%s/\s\+$//e
+highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
+match ExtraWhitespace /\s\+$/
+
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>
