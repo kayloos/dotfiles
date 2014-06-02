@@ -23,6 +23,8 @@ Bundle 'fugitive.vim'
 Bundle 'rails.vim'
 Bundle 'BufOnly.vim'
 Bundle 'splitjoin.vim'
+Bundle 'bundler.vim'
+Bundle 'endwise.vim'
 
 if executable("ag")
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
@@ -304,6 +306,8 @@ let g:hdevtools_options = '-g-isrc -g-Wall'
 autocmd BufWritePre * :%s/\s\+$//e
 highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
 match ExtraWhitespace /\s\+$/
+
+au BufWritePost *.c,*.cpp,*.h,*.rb,*.hs silent! !ctags -R &
 
 nmap sj :SplitjoinSplit<cr>
 nmap sk :SplitjoinJoin<cr>
