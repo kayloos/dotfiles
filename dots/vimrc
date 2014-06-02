@@ -46,7 +46,7 @@ filetype plugin indent on
 syntax enable
 
 if has('gui_running')
-  set gfn=Monaco:h14
+  set gfn=Monaco:h12
   set guioptions=ce
   "              ||
   "              |+-- use simple dialogs rather than pop-ups
