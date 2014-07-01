@@ -25,6 +25,9 @@ Bundle 'BufOnly.vim'
 Bundle 'splitjoin.vim'
 Bundle 'bundler.vim'
 Bundle 'endwise.vim'
+Bundle 'Tagbar'
+
+" Testing bundles
 
 if executable("ag")
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
@@ -48,7 +51,7 @@ filetype plugin indent on
 syntax enable
 
 if has('gui_running')
-  set gfn=Monaco:h12
+  set gfn=Monaco:h14
   set guioptions=ce
   "              ||
   "              |+-- use simple dialogs rather than pop-ups
@@ -161,10 +164,10 @@ nnoremap <Leader>x :split<CR>:bn<CR><C-w>j:bd<CR>
 nnoremap <Leader>X :BufOnly<CR>
 
 " Switch between tabs
-noremap <C-h> :tabprevious<CR>
-noremap <C-l> :tabnext<CR>
-inoremap <C-h> <Esc>:tabprevious<CR>
-inoremap <C-l> <Esc>:tabnext<CR>
+map <C-h> :tabprevious<CR>
+map <C-l> :tabnext<CR>
+imap <C-h> <Esc>:tabprevious<CR>
+imap <C-l> <Esc>:tabnext<CR>
 
 " Switch between buffers
 noremap <C-j> :bp<CR>
@@ -311,3 +314,7 @@ au BufWritePost *.c,*.cpp,*.h,*.rb,*.hs silent! !ctags -R &
 
 nmap sj :SplitjoinSplit<cr>
 nmap sk :SplitjoinJoin<cr>
+
+" Tagbar
+nnoremap <silent> st :TagbarToggle<CR>
+
