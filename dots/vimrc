@@ -304,7 +304,7 @@ au FileType haskell nnoremap <buffer> <F3> :SyntasticCheck<CR>
 let g:hdevtools_options = '-g-isrc -g-Wall'
 
 autocmd BufWritePre * :%s/\s\+$//e
-highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
+highlight ExtraWhitespace ctermbg=236 guibg=#303030
 match ExtraWhitespace /\s\+$/
 
 au BufWritePost *.c,*.cpp,*.h,*.rb,*.hs silent! !ctags -R &
